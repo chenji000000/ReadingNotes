@@ -9,3 +9,7 @@
 -convert:from: 转换坐标系
 
 三个方法搭配使用，可以控制视图响应
+
+[Early returning functions in Swift](https://www.swiftbysundell.com/posts/early-returning-functions-in-swift)
+
+用guard控制函数提前返回。
