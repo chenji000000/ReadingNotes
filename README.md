@@ -1,5 +1,22 @@
 # ReadingNotes
 
+###[保护App不闪退](http://www.cocoachina.com/ios/20180919/24905.html)
+由于OC是Message机制，而且对象在转换的时候，回有拿到的对象和预期不一致，所以会有方法找不到的情况，在找不到方法时，查找方法将会静如方法Forward流程，系统给了三次补救的机会。
+
+![流程](forward.png)
+
+resolveInstanceMethod:(SEL)sel 这是实例化方法没有找到方法，最先执行的函数，首先回流转到这里，返回值是BOOL，没有找到就是NO，找到就返回YES，如果要解决就需要在当前的事例中加入不存在的Selector，并绑定IMP。
+
+如果resolveInstanceMethod没有处理，将进行到forwardingTargetForSelector这步来，这时候你可以返回nil, 你也可以用一个Stub对象来接住，把消息流程转到Stub，然后在你的Stub里添加不存在的Selector，这样就不会crash。
+
+当methodSignatureForSelector返回nil时，会Crash
+如果methodSignatureForSelector返回一个定义好的NSMethodSignature，但是没有实现forwardInvocation，也会闪退，如果实现了forwardInvocation，会先返回到resolveInstanceMethod然后再才会到forwardInvocation
+当流转到forwardInvocation,通过以下方法:
+[anInvocation invokeWithTarget:xxxtarget1];
+[anInvocation invokeWithTarget:xxxtarget2];
+
+
+
 ###[Hacking Hit Tests](http://khanlou.com/2018/09/hacking-hit-tests/)
 
 -pointInside:withEvent: 给定的点是否在当前视图中
