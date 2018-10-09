@@ -1,3 +1,41 @@
+##操作系统
+###[操作系统是如何管理内存的](http://limboy.me/tech/2018/09/14/os-memory.html)
+每个进程创建的内存地址都是虚拟地址，操作系统使用了虚拟化技术，让进程觉得它拥有了大块可支配的内存的假象，操作系统拿到这个地址后会将它转变为真实的内存地址，从而拿到对应的信息。
+
+
+##iOS基础
+
+
+###[iOS RunLoop入门小结](http://www.cocoachina.com/ios/20180515/23380.html)
+iOS 系统中，提供了两种RunLoop：NSRunLoop 和 CFRunLoopRef。
+CFRunLoopRef 是在 CoreFoundation 框架内的，它提供了纯 C 函数的 API，所有这些 API 都是线程安全的。
+
+NSRunLoop 是基于 CFRunLoopRef 的封装，提供了面向对象的 API，但是这些 API 不是线程安全的
+
+①.RunLoop是寄生于线程的消息循环机制，它能保证线程存活，而不是线性执行完任务就消亡。
+
+②.RunLoop与线程是一一对应的，每个线程只有唯一与之对应的一个RunLoop。我们不能创建RunLoop，只能在当前线程当中获取线程对应的RunLoop（主线程RunLoop除外）。
+
+③.子线程默认没有RunLoop，需要我们去主动开启，但是主线程是自动开启了RunLoop的。
+
+④.RunLoop想要正常启用需要运行在添加了事件源的Mode下。
+
+⑤.RunLoop有三种启动方式run、runUntilDate:(NSDate *)limitDate、runMode:(NSString *)mode beforeDate:(NSDate *)limitDate。第一种无条件永远运行RunLoop并且无法停止，线程永远存在。第二种会在时间到后退出RunLoop，同样无法主动停止RunLoop。前两种都是在NSDefaultRunLoopMode模式下运行。第三种可以选定运行模式，并且在时间到后或者触发了非Timer的事件后退出。
+
+
+###[ARC到底帮我们做了哪些工作？](https://blog.csdn.net/wangyanchang21/article/details/79461511)
+ARC是编译时编译器插入了原本需要自己手写的内存管理代码，而非像垃圾回收一样运行时的垃圾回收系统。
+
+绝对不分ARC都是可以做好的，但会有一些情况是例外的，如performSelector系列方法有很多，都是带有选择子的，这种编程方式极为灵活，经常可用来简化复杂的代码，不管哪种用法，编译器都不知道要执行的选择子是什么，这必须到了运行期才能确定。
+
+
+###[Effective OC之内存管理](https://blog.csdn.net/wangyanchang21/article/details/79356164#t7)
+在ARC中，所有与引用计数有关的方法都无法编译，所以在开启ARC功能时不能直接调用的内存管理的方法。
+
+引用计数机制通过可以递增递减的计数器来管理内存。对象创建好之后，其保留计数至少为1，若保留计数为正，则对象继续存活，当保留计数为0时，对象就被销毁了
+在对象生命期中，其余对象通过引用来保留或者释放此对象。保留与释放操作分别会递增及递减保留计数。
+
+
 ###[深入简出--iOS编程思想](http://www.cocoachina.com/ios/20180928/25053.html)
 ####1.面向过程编程思想
 处理事情以过程为核心，一步一步的实现
@@ -269,7 +307,7 @@ JSPatch是一个Ios动态更新框架，通过引入JSCore，就可以使用js�
 
 
 
-###其他（知识点）
+##其他
 xib的原理就是将xml文件解析出来，找到相应的view，转换成代码，然后创建对象并显示。
 
 
